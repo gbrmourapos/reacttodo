@@ -1,52 +1,48 @@
-import { useRef, useState } from 'react';
-import './App.css';
-import { TodoType } from './types/todo.types';
-import { v4 as uuidv4 } from 'uuid';
+import { useRef, useState } from "react";
+import { TodoType } from "./types/todo.types";
+import { v4 as uuidv4 } from "uuid";
+import { TodoCard } from "./components/todo-card";
 
 function App() {
-  const [todos, setTodos] = useState<Array<TodoType>>([]);
-  const inputRef = useRef<any>();
+	const [todos, setTodos] = useState<Array<TodoType>>([]);
+	const inputRef = useRef<any>();
 
-  const handleRemove = (id: string) => {
-    setTodos((currentTodos) => {
-      return [...currentTodos.filter((e) => e.id !== id)] 
-    })
-  }
+	const handleRemove = (id: string) => {
+		setTodos(todos.filter((e) => e.id !== id));
+	};
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    
-    setTodos((currentTodos) => {
-      const newTodo: TodoType = {
-        id: uuidv4(),
-        description: inputRef.current.value,
-      }
+	const handleSaveTodo = () => {
+		const newTodo: TodoType = {
+			id: uuidv4(),
+			description: inputRef.current.value,
+		};
 
-      inputRef.current.value = "";
-      
-      return [...currentTodos, newTodo];
-    });
-  }
+		setTodos([...todos, newTodo]);
+		
+		inputRef.current.value = "";
+	};
 
   return (
-    <div className="App">
-      <ul>
-        {todos?.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <p>{todo.description}</p>
-              <button onClick={() => {handleRemove(todo.id)}}> Remove </button>
-            </li>
-          )  
-        })}
-      </ul>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <label>Description: <input type="text" ref={inputRef}/></label>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </div>
+	<div className="App">
+		<div>
+			<label>Description: <input type="text" ref={inputRef} /></label>
+			<button onClick={handleSaveTodo}>Submit</button>
+		</div>
+		<ul>
+			{todos?.map((todo) => {
+				return (
+					<TodoCard
+						key={todo.id}
+						id={todo.id}
+						description={todo.description}
+						onRemove={() => {
+							handleRemove(todo.id);
+						}}
+					/>
+				);
+			})}
+		</ul>
+	</div>
   );
 }
 
