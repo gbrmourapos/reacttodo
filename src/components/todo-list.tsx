@@ -7,13 +7,14 @@ const TodoList = () => {
 
     return (
         <div style={{overflow: "auto", height: "95%", padding: "0.5rem"}}>
-            <ul >
+            <ul style={{listStyle: "none", padding: '0.5rem'}}>
                 {todos?.map((todo) => {
                     return (
                         <TodoCard
                             key={todo.id}
                             id={todo.id}
                             description={todo.description}
+                            checked={todo.checked}
                         />
                     );
                 })}

@@ -14,10 +14,12 @@ function App() {
 	const values = useFetchTodo();
 
 	useEffect(() => {
+		console.log(values);
 		const newTodos = values?.todos?.map((value: any) => {
 			const newTodo: TodoType = {
 				id: uuidv4(),
 				description: value.todo,
+				checked: value.completed,
 			}
 			return newTodo;
 		})

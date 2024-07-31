@@ -17,6 +17,7 @@ const TodoCreate = () => {
         const newTodo: TodoType = {
             id: uuidv4(),
             description: inputRef.current.value,
+            checked: false,
         };
 
         setTodos([...todos, newTodo]);
